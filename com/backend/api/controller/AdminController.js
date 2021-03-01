@@ -1,5 +1,6 @@
 let Admin = require("../models/AdminModels");
 let participant = require("../models/participantModels");
+let Question = require("../models/QuestionModel");
 var nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 
@@ -19,7 +20,6 @@ const AddAdmin = (req,res) =>{
       .catch((err) => res.status(400).json("Error :" + err));
 }
 /////Login Admin
-
 const SuperAdminLogin = async (req,res)=>{
     const{phone,password} = req.body
   const admin =  await Admin.findOne({phone, password})
@@ -42,8 +42,7 @@ const SuperAdminLogin = async (req,res)=>{
 }
          
           }
-    
-    ////// Validition Participant
+//// Validition Participant
  const SuperAdminValid = (req,res) =>{
        
     participant.findById(req.params.id)
@@ -88,6 +87,23 @@ const SuperAdminLogin = async (req,res)=>{
       }
     });
   })
-}     
+}  
+//////Add Question
+const createQuestion = (req, res) => {
 
-  module.exports={AddAdmin ,SuperAdminLogin , SuperAdminValid }
+    const question = new Question(req.body)
+
+    question.save((err, question) => {
+      if(err){
+          return res.status(400).json({
+              error: "bad Request !"
+          })
+      }
+
+      res.json(
+          question
+      )
+    })
+}
+
+  module.exports={AddAdmin ,SuperAdminLogin , SuperAdminValid ,createQuestion }

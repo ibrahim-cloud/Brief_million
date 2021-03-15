@@ -1,8 +1,10 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 ////connction database////
 const mongoose = require("mongoose");
@@ -26,4 +28,4 @@ const parRouter = require("./routes/ParticipantRoute");
 app.use("/participant", parRouter);
 
 
-app.listen(1010, () => console.log('Server started on port 1010'));
+app.listen(1099, () => console.log('Server started on port 1010'));

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 function verifyLogin(req,res,next) {
-    const token = req.header('votre-token')
+    const token = req.header('votretoken')
     if(!token){
        return res.send('Vous etes oblige de vous connecter')
     }
@@ -10,6 +10,7 @@ function verifyLogin(req,res,next) {
         req.admin = tokenDecode
         next()
     } catch (error) {
+        // return  res.redirect('/login');
         return res.status(401).send('error')
     }
 }

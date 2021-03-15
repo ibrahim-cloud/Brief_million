@@ -10,7 +10,7 @@ const groupSchema = new mongoose.Schema({
     code:{
         type :Number    
     },
-    code : Number,
+   
     questions : {
         type : [String],
         ref : Qustion,
@@ -19,6 +19,9 @@ const groupSchema = new mongoose.Schema({
     start : {
         type : Boolean,
         default : true
+    },
+    winner :{
+        type : [mongoose.Schema.Types.ObjectId]
     }
 })
 

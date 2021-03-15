@@ -3,6 +3,7 @@ let participant = require("../models/participantModels");
 let Question = require("../models/QuestionModel");
 var nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
+const {AddLog}  = require('../logger')
 
 ///Add first Admin
 const AddAdmin = (req,res) =>{
@@ -17,6 +18,8 @@ const AddAdmin = (req,res) =>{
       newAdmin
       .save()
       .then(() => res.json("Admin successfully added"))
+      .then(()=>     AddLog("Add Admin", "info", "Add Admin")) 
+      
       .catch((err) => res.status(400).json("Error :" + err));
 }
 /////Login Admin
@@ -55,6 +58,7 @@ const SuperAdminLogin = async (req,res)=>{
         Participant
             .save()
             .then(() => res.json("is_valid successfully updated"))
+            .then(()=> AddLog("Participant valid", "info", "Participant Valid") )
             
             
   
@@ -65,7 +69,7 @@ const SuperAdminLogin = async (req,res)=>{
     secure: false, // true for 465, false for other ports
     auth: {
         user: 'himi66447@gmail.com', // generated ethereal user
-        pass: ''  // generated ethereal password
+        pass: 'IbrahiME'  // generated ethereal password
     },
     tls:{
       rejectUnauthorized:false
@@ -88,8 +92,27 @@ const SuperAdminLogin = async (req,res)=>{
     });
   })
 }  
+///////Get User
+const getuser = async (req,res) =>{
+
+
+ 
+  participant.find().exec((err, participant) => {
+    if(err){
+        return res.status(500).json({
+            error: err
+        })
+    }
+
+    res.json(participant
+        
+    )
+})
+}
 //////Add Question
 const createQuestion = (req, res) => {
+  const token = req.header('votretoken')
+  const codeToken = jwt.verify(token, 'secretkey')
 
     const question = new Question(req.body)
 
@@ -106,4 +129,4 @@ const createQuestion = (req, res) => {
     })
 }
 
-  module.exports={AddAdmin ,SuperAdminLogin , SuperAdminValid ,createQuestion }
+  module.exports={AddAdmin ,SuperAdminLogin , SuperAdminValid ,createQuestion ,getuser}

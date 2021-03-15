@@ -10,6 +10,8 @@ router.post('/login',AdminController.SuperAdminLogin)
 
 router.post('/AddAdmin',[auth,Gadmin],AdminController.AddAdmin)
 
+router.get('/user',AdminController.getuser)
+
 router.put("/valid/:id" ,[auth,Gadmin],AdminController.SuperAdminValid) ;
 
 router.post('/addquestion',[auth,admin],AdminController.createQuestion)
